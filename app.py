@@ -90,7 +90,7 @@ def get_sources_from_claims(claims):
         claim_str = ""
         for c in claim:
             claim_str += c + " | "
-        params = {'api_token': 'FCEu5WLY3026lFlUi7AkWBW9US3cFRByRAxpbqUz',
+        params = {'api_token': 'RGo6SgUC5w1TMMMzXtDkmWq3ZaAk4YxItiFMCbnJ',
                 'search': claim_str}
         result_json = requests.get('https://api.thenewsapi.com/v1/news/all?language=en&limit=3&', params=params).json()
 
@@ -107,7 +107,7 @@ def check_claims_by_source(claims, sources):
     for i in range(len(claims)):
         claim = claims[i]
         source = sources[i][0]
-        results.append(model.generate_content(f"Tell me if the claim {claim} is supported by the following article, reply with ONLY 'True', 'False', 'Misleading', or 'Unsure': {get_article_content(source)}").text[0:-2])
+        results.append(model.generate_content(f"Tell me if the claim {claim} is supported by the following article, reply with ONLY 'True', 'False', 'Misleading', or 'Unsure' and then say a percent certainty: {get_article_content(source)}").text[0:-2])
     return results
 
 
@@ -144,7 +144,7 @@ def home():
     result.append({"success": "true"})
     for claim, source, verification in zip(claims, sources, verifications):
         result.append({
-            "claim": claim,
+            "text": claim,
             "sources": source,
             "rating": verification
         })
