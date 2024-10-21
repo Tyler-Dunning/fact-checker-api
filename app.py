@@ -8,9 +8,10 @@ from urllib.parse import urlparse, parse_qs
 import json
 import google.generativeai as genai
 from flask_cors import CORS, cross_origin
+import os
 
 
-genai.configure(api_key="AIzaSyDLwll-ubTv5iGGGiskXgC8r5AHb-9dm1Q")
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 
 def get_video_id(youtube_url):
@@ -90,7 +91,7 @@ def get_sources_from_claims(claims):
         claim_str = ""
         for c in claim:
             claim_str += c + " | "
-        params = {'api_token': 'RGo6SgUC5w1TMMMzXtDkmWq3ZaAk4YxItiFMCbnJ',
+        params = {'api_token': os.getenv("NEWS_API_KEY"),
                 'search': claim_str}
         result_json = requests.get('https://api.thenewsapi.com/v1/news/all?language=en&limit=3&', params=params).json()
 
